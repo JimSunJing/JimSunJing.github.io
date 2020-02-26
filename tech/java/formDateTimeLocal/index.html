@@ -11,7 +11,7 @@
 
     <title>
         
-          home - JimSun&#39;s Blog
+          tech/java/formDateTimeLocal - JimSun&#39;s Blog
         
     </title>
 
@@ -203,25 +203,33 @@ show_sidebar()
 </div>
 
 <div class="book-post">
-  <h1 id="Hello-I’m-Jim">Hello, I’m Jim</h1>
-<p><sub>真的要学多点知识</sub></p>
-<h3 id="有几个板块">有几个板块</h3>
-<p><strong>Tech</strong> - 技术文章</p>
-<p><strong>Talk</strong> - 时事和新闻</p>
-<p><strong>Book</strong> - 读书笔记</p>
-<p><strong>ART</strong> - 电影、音乐…</p>
-<p><strong>Life</strong> - 生活碎碎念</p>
-<p><strong>资源</strong> - 一些电子书之类的</p>
-<h3 id="find-me">find me</h3>
-<p>有问题欢迎联系~</p>
-<p>mail: <a href="mailto:sunjing6428@126.com">sunjing6428@126.com</a></p>
-<p><a href="https://www.douban.com/people/91835006/" target="_blank" rel="noopener">douban page</a></p>
-<p><a href="https://github.com/JimSunJing" target="_blank" rel="noopener">github page</a></p>
-<h3 id="博客构造">博客构造</h3>
-<p>github+hexo，使用 typora 编辑文章。</p>
+  <h1 id="前端表单传入时间-datetime-local-格式无法被-Spring-MVC-处理的解决方案">前端表单传入时间(datetime-local)格式无法被 Spring MVC 处理的解决方案</h1>
+<h2 id="情况">情况</h2>
+<p>在做一个添加条目的页面时，使用到了一个 <code>type=&quot;datetime-local&quot;</code> 的时间<code>input</code>，结果导致提交表单后服务器端报错 <em>400: The request sent by the client was syntactically incorrect.</em></p>
+<h2 id="原因">原因</h2>
+<p>通过chrome抓包，得知传入的 time 字符串的格式为：“2020-02-20T13:13”，也就是：“yyyy-MM-ddTHH:mm”</p>
+<p>我认为这是因为MVC自带的格式转换器没有该字符串转时间类型的转换器。</p>
+<h2 id="解决">解决</h2>
+<h3 id="方案一：自建转换器并配置到-SpringMVC中">方案一：自建转换器并配置到 SpringMVC中</h3>
+<p>自己写了一个Converter：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DateConverter</span> <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">String</span>, <span class="title">Date</span>&gt; </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Date <span class="title">convert</span><span class="params">(String source)</span> </span>&#123;</span><br><span class="line">        Date result = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            result = DateUtils.string2Date(source,<span class="string">"yyyy-MM-dd'T'HH:mm"</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ParseException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 Spring MVC 配置文件中配置该转换器：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;mvc:annotation-driven conversion-service=<span class="string">"formattingConversionService"</span>/&gt;</span><br><span class="line">    &lt;!--配置时间转换器--&gt;</span><br><span class="line">    &lt;bean <span class="class"><span class="keyword">class</span></span>=<span class="string">"org.springframework.format.support.FormattingConversionServiceFactoryBean"</span></span><br><span class="line">          id=<span class="string">"formattingConversionService"</span>&gt;</span><br><span class="line">        &lt;property name=<span class="string">"converters"</span>&gt;</span><br><span class="line">            &lt;list&gt;</span><br><span class="line">                &lt;bean class="com.jimmy.utils.DateConverter"&gt;&lt;/bean&gt;</span><br><span class="line">            &lt;/list&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">    &lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="方案二：使用-DateTimeFormat-注解">方案二：使用 @DateTimeFormat 注解</h3>
+<p>可以使用<code>org.springframework.format.annotation.DateTimeFormat</code>注解进行对某一个对象成员的格式转换设置。</p>
+<p>由于不需要自建和配置，对于个别出现的成员比较方便，但对于需要经常转换的格式还是用converter更加合适。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="keyword">private</span> String productNum;</span><br><span class="line">    <span class="keyword">private</span> String productName;</span><br><span class="line">    <span class="keyword">private</span> String cityName;</span><br><span class="line">    <span class="meta">@DateTimeFormat</span>(pattern = <span class="string">"yyyy-MM-dd'T'HH:mm"</span>)</span><br><span class="line">    <span class="keyword">private</span> Date departureTime;</span><br></pre></td></tr></table></figure>
 
 </div>
 
+
+  <div class="book-comments">
+    
+
+
+
+
+  </div>
 
 
 
