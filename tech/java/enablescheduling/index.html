@@ -95,26 +95,17 @@ document.addEventListener('DOMContentLoaded', function () {
 <li><a href="/tech/win10_ios13">Windows&amp;iOS13文件/影视共享</a></li>
 </ul>
 </li>
-<li>Talk
-<ul>
-<li><a href="/talk/WhyYouFeelLikeYouDontBelong">为何你没有归属感</a></li>
-<li><a href="/talk/news">新闻翻译</a></li>
-<li><a href="/talk/hk%E9%A2%84%E9%98%B2%E5%BB%BA%E8%AE%AE">nCoV 香港预防建议</a></li>
-</ul>
-</li>
 <li>Book
 <ul>
 <li><a href="/book/willpower/diretory">自控力</a></li>
 </ul>
 </li>
 <li><a href="/ART/guide">ART</a></li>
-<li>Life</li>
 <li>资源
 <ul>
 <li><a href="/zy/sycn_key_review">sycn key review</a></li>
 </ul>
 </li>
-<li><a href="/archives/">所有文章</a></li>
 </ul>
 
   </div>
@@ -178,26 +169,17 @@ show_sidebar()
 <li><a href="/tech/win10_ios13">Windows&amp;iOS13文件/影视共享</a></li>
 </ul>
 </li>
-<li>Talk
-<ul>
-<li><a href="/talk/WhyYouFeelLikeYouDontBelong">为何你没有归属感</a></li>
-<li><a href="/talk/news">新闻翻译</a></li>
-<li><a href="/talk/hk%E9%A2%84%E9%98%B2%E5%BB%BA%E8%AE%AE">nCoV 香港预防建议</a></li>
-</ul>
-</li>
 <li>Book
 <ul>
 <li><a href="/book/willpower/diretory">自控力</a></li>
 </ul>
 </li>
 <li><a href="/ART/guide">ART</a></li>
-<li>Life</li>
 <li>资源
 <ul>
 <li><a href="/zy/sycn_key_review">sycn key review</a></li>
 </ul>
 </li>
-<li><a href="/archives/">所有文章</a></li>
 </ul>
 
   </div>
@@ -229,6 +211,11 @@ show_sidebar()
 <p>所以接下来就是要寻找项目中拥有<code>@Scheduled</code>的方法，便知道了 VBlog 中实现数据定时统计的方法：<br>
 找到后，发现是通过 <code>cron</code> 设置的定时任务。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataStatisticsComponent</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    ArticleService articleService;</span><br><span class="line">    <span class="comment">//每天 0时0分的第1秒 执行一次，统计PV</span></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"1 0 0 * * ?"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pvStatisticsPerDay</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        articleService.pvStatisticsPerDay();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** cron 格式，学linux的时候有见过。</span></span><br><span class="line"><span class="comment">* second（秒）, minute（分）, hour（时）, day of month（日）, month（月）, day of week（周几）.</span></span><br><span class="line"><span class="comment">* 例子：</span></span><br><span class="line"><span class="comment">*  【0 0/5 14,18 * * ?】 每天14点整，和18点整，每隔5分钟执行一次</span></span><br><span class="line"><span class="comment">*  【0 15 10 ? * 1-6】 每个月的周一至周六10:15分执行一次</span></span><br><span class="line"><span class="comment">*  【0 0 2 ? * 6L】每个月的最后一个周六凌晨2点执行一次</span></span><br><span class="line"><span class="comment">*  【0 0 2 LW * ?】每个月的最后一个工作日凌晨2点执行一次</span></span><br><span class="line"><span class="comment">*  【0 0 2-4 ? * 1#1】每个月的第一个周一凌晨2点到4点期间，每个整点都执行一次；</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h3 id="实践">实践</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ScheduleService</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 每4秒执行一次</span></span><br><span class="line">    <span class="meta">@Scheduled</span>(cron = <span class="string">"0/4 * * * * ? "</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scheduleTest</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">new</span> Date());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>效果<br>
+<img src="https://img-blog.csdnimg.cn/20200302151358612.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0ppbV9TdW5fSmluZw==,size_16,color_FFFFFF,t_70" alt="效果图"></p>
+
 </div>
 
 
