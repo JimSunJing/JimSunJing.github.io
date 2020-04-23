@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+
+    
+      <link rel="icon" href="/favicon.ico" />
+    
+
+    <title>
+        
+          tech/java/JavaThreadLife - JimSun&#39;s Blog
+        
+    </title>
+
+    <!-- Spectre.css framework -->
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+
+    <!-- Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC" rel="stylesheet">
+    <!-- Noto Sans SC -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+SC" rel="stylesheet">
+    <!-- Noto Sans -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+
+    <!-- theme css & js -->
+    
+<link rel="stylesheet" href="/css/book.css">
+
+    
+<script src="/js/book.js"></script>
+
+
+    <!-- tocbot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+    
+    <!-- katex -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zooming/2.1.1/zooming.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const zooming = new Zooming()
+    zooming.listen('img')
+})
+</script>
+
+    
+    <!-- echarts -->
+    <script src="http://echarts.baidu.com/dist/echarts.common.min.js"></script>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+
+<div class="container">
+  <div class="book-container">
+    <div class="columns">
+      <div class="column col-2 hide-lg">
+        <div class="book-sidebar">
+  <h4 class="site-meta">
+    <a href="/">JimSun&#39;s Blog</a>
+  </h4>
+  <div class="sidebar-content">
+    <ul>
+<li><a href="/home">Home</a></li>
+<li>Tech
+<ul>
+<li>JAVA
+<ul>
+<li><a href="/tech/java/formDateTimeLocal">前端表单传入时间(datetime-local)格式…</a></li>
+<li><a href="/tech/java/enablescheduling">@EnableScheduling 实现定时任务的布置</a></li>
+<li><a href="/tech/java/timedCache">TimedCache 定时清除缓存是如何实现的</a></li>
+<li><a href="/tech/java/MyBatisPlus">Mybatis Plus 和二级缓存练习</a></li>
+<li><a href="/tech/java/StringBuffer_Builder">StringBuffer 与 StringBuilder区别</a></li>
+<li><a href="/tech/java/JavaThreadLife">Java 线程生命周期</a></li>
+</ul>
+</li>
+<li>data science/python
+<ul>
+<li><a href="/tech/boxcox">BoxCox变换</a></li>
+<li><a href="/tech/ClawAirbnb">airbnb爬取</a></li>
+<li><a href="/tech/memnet">End To End Memory Network</a></li>
+<li><a href="/tech/backup_douban">备份豆瓣计划</a></li>
+</ul>
+</li>
+<li>hexo相关
+<ul>
+<li><a href="/tech/insertpic">如何在hexo插入压缩后的图片</a></li>
+<li><a href="/tech/dbtohexo">将豆瓣长评搬运到hexo博客</a></li>
+</ul>
+</li>
+<li><a href="/tech/win10_ios13">Windows&amp;iOS13文件/影视共享</a></li>
+</ul>
+</li>
+<li>Book
+<ul>
+<li><a href="/book/willpower/diretory">自控力</a></li>
+</ul>
+</li>
+<li><a href="/ART/guide">ART</a></li>
+<li>资源
+<ul>
+<li><a href="/zy/sycn_key_review">sycn key review</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+
+<script src="/js/book-sidebar.js"></script>
+
+
+<script>
+collapse_sidebar(2)
+highlight_tab()
+show_sidebar()
+</script>
+      </div>
+
+      <div class="column col-8 col-lg-12">
+        <div class="book-content">
+          <div class="book-navbar">
+  <header class="navbar">
+  <section class="navbar-section">
+    <img class="navbar-icon" src="/favicon.ico">
+  </section>
+  <section class="navbar-center">
+    JimSun&#39;s Blog
+  </section>
+  <section class="navbar-section">
+    <label class="accordion-header c-hand" for="accordion-sidebar">
+      <i class="icon icon-menu"></i>
+    </label>
+  </section>
+</header>
+
+<div class="accordion">
+  <input type="checkbox" id="accordion-sidebar" name="accordion-checkbox" hidden>
+  <div class="accordion-body">
+    <ul>
+<li><a href="/home">Home</a></li>
+<li>Tech
+<ul>
+<li>JAVA
+<ul>
+<li><a href="/tech/java/formDateTimeLocal">前端表单传入时间(datetime-local)格式…</a></li>
+<li><a href="/tech/java/enablescheduling">@EnableScheduling 实现定时任务的布置</a></li>
+<li><a href="/tech/java/timedCache">TimedCache 定时清除缓存是如何实现的</a></li>
+<li><a href="/tech/java/MyBatisPlus">Mybatis Plus 和二级缓存练习</a></li>
+<li><a href="/tech/java/StringBuffer_Builder">StringBuffer 与 StringBuilder区别</a></li>
+<li><a href="/tech/java/JavaThreadLife">Java 线程生命周期</a></li>
+</ul>
+</li>
+<li>data science/python
+<ul>
+<li><a href="/tech/boxcox">BoxCox变换</a></li>
+<li><a href="/tech/ClawAirbnb">airbnb爬取</a></li>
+<li><a href="/tech/memnet">End To End Memory Network</a></li>
+<li><a href="/tech/backup_douban">备份豆瓣计划</a></li>
+</ul>
+</li>
+<li>hexo相关
+<ul>
+<li><a href="/tech/insertpic">如何在hexo插入压缩后的图片</a></li>
+<li><a href="/tech/dbtohexo">将豆瓣长评搬运到hexo博客</a></li>
+</ul>
+</li>
+<li><a href="/tech/win10_ios13">Windows&amp;iOS13文件/影视共享</a></li>
+</ul>
+</li>
+<li>Book
+<ul>
+<li><a href="/book/willpower/diretory">自控力</a></li>
+</ul>
+</li>
+<li><a href="/ART/guide">ART</a></li>
+<li>资源
+<ul>
+<li><a href="/zy/sycn_key_review">sycn key review</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+</div>
+
+<div class="book-post">
+  <h1 id="Java-线程生命周期">Java 线程生命周期</h1>
+<p>最近发现了 <strong>Whimsical</strong> 这个好用的画图工具，所以打算将 Java 的一些核心知识使用这个软件进行整理和展示，用图画整理思路。</p>
+<h2 id="图">图</h2>
+<p>Java 线程的生命周期图：</p>
+<p><img src="/images/java/javaThread.png" alt="线程的生命周期"></p>
+<h2 id="线程的状态">线程的状态</h2>
+<p>Java 的线程状态有以下五种：</p>
+<ol>
+<li>
+<p>新建状态（NEW）</p>
+<p>用new关键字和Thread类或其子类建立一个线程对象后，该线程对象就处于新生状态。处于新生状态的线程有自己的内存空间，通过调用start方法进入就绪状态（runnable）。</p>
+</li>
+<li>
+<p>就绪状态（READY）</p>
+<p>在就绪下，线程进入到了可运行池，等待分配CPU。当系统选定一个等待执行的Thread对象后，它就会从等待执行状态进入执行状态，系统挑选的动作称之为“CPU调度”。一旦获得CPU，线程就进入运行状态并自动调用自己的run方法。</p>
+</li>
+<li>
+<p>运行状态（RUNNABLE）</p>
+<p>处于运行状态的线程执行 <code>run()</code>方法。如果该线程失去了CPU资源，会从运行状态变回就绪状态，重新等待系统分配资源。可以使用<code>yield()</code>方法使其让出CPU资源，再次变为就绪状态。</p>
+</li>
+<li>
+<p>阻塞状态（BLOCKED、WAITING、TIMED_WAITING）</p>
+<p>阻塞状态是指线程自动或被动让出CPU并暂停自己的运行。当引起阻塞的原因消除时，阻塞才能回到就绪状态等待被系统选中。</p>
+</li>
+<li>
+<p>死亡状态（TERMINATED）</p>
+<p>当线程<code>run()</code>方法执行完或者被强制终止，就认为它进入死亡状态。一旦线程死亡，就不能复生。</p>
+</li>
+</ol>
+<h2 id="状态的转变">状态的转变</h2>
+<h3 id="新建状态-就绪状态">新建状态 -&gt; 就绪状态</h3>
+<p><code>Thread.start()</code> —— 使该线程开始执行；Java 虚拟机调用该线程的 <code>run</code> 方法。</p>
+<h3 id="就绪状态-运行状态">就绪状态 -&gt; 运行状态</h3>
+<p><code>yield()</code>—— 暂停当前正在执行的线程对象，并执行其他线程。</p>
+<h3 id="运行状态-阻塞状态">运行状态 -&gt; 阻塞状态</h3>
+<p>当发生如下情况时，线程将会<strong>进入阻塞状态</strong>：</p>
+<ol>
+<li>线程调用<code>sleep()</code>方法主动放弃所占用的处理器资源，进入超时等待状态（TIMED_WAITING）</li>
+<li>线程调用了一个阻塞式IO方法，在该方法返回之前，该线程被阻塞</li>
+<li>线程试图获得一个同步监视器，但该同步监视器正被其他线程所持有，进入BLOCKED状态。</li>
+<li>线程在等待某个通知<code>notify</code></li>
+<li>程序调用了线程的<code>suspend()</code>方法将该线程挂起。这个方法容易导致死锁，所以应该尽量避免使用该方法。</li>
+</ol>
+<h3 id="阻塞状态-运行状态">阻塞状态 -&gt; 运行状态</h3>
+<p>解除阻塞，让线程重新进入就绪状态：</p>
+<ol>
+<li>调用<code>sleep()</code>方法的线程经过了指定时间。</li>
+<li>线程调用的阻塞式IO方法已经返回。</li>
+<li>线程成功地获得了试图取得的<strong>同步监视器（锁）</strong>。</li>
+<li>线程正在等待某个通知时，其他线程发出了个<strong>通知</strong>。</li>
+<li>处于挂起状态的线程被调用了恢复方法。</li>
+</ol>
+<h3 id="运行状态-死亡状态">运行状态 -&gt; 死亡状态</h3>
+<p>线程会以如下三种方式结束，结束后处于死亡状态：</p>
+<ol>
+<li><code>run()</code>, <code>call()</code>方法执行结束，线程便正常结束</li>
+<li>线程抛出一个未捕获的 Exception 或 Error</li>
+<li>直接调用该线程stop()方法来结束该线程——该方法容易导致死锁，通常不推荐使用。</li>
+</ol>
+<h2 id="状态的获取">状态的获取</h2>
+<p>调用线程对象的<code>isAlive()</code>方法，当线程处于就绪、运行、阻塞了种状态时，该方法将返回true；当线程处于新建、死亡状态时，该方法将返回false。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 线程开始或结束状态的判断</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadStartEnd</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            System.out.println(getName() + <span class="string">" - "</span>+ i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建线程</span></span><br><span class="line">        ThreadStartEnd thread = <span class="keyword">new</span> ThreadStartEnd();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">300</span>; i++) &#123;</span><br><span class="line">            System.out.println(<span class="string">"Current Thread: "</span>+currentThread().getName()+<span class="string">", i= "</span>+i);</span><br><span class="line">            <span class="keyword">if</span> (i==<span class="number">20</span>)&#123;</span><br><span class="line">                thread.start();</span><br><span class="line">                <span class="comment">// 判断线程启动状态</span></span><br><span class="line">                System.out.println(<span class="string">"isAlive? "</span>+thread.isAlive());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 当线程死亡时再次启动，观察反应</span></span><br><span class="line">            <span class="comment">// 结果是该死亡线程无法再次启动</span></span><br><span class="line">            <span class="keyword">if</span> (i&gt;<span class="number">20</span> &amp;&amp; !thread.isAlive())&#123;</span><br><span class="line">                thread.start();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考">参考</h2>
+<p><a href="https://blog.csdn.net/lonelyroamer/article/details/7949969" target="_blank" rel="noopener">https://blog.csdn.net/lonelyroamer/article/details/7949969</a></p>
+<p><a href="https://www.cnblogs.com/sunddenly/p/4106562.html" target="_blank" rel="noopener">https://www.cnblogs.com/sunddenly/p/4106562.html</a></p>
+
+</div>
+
+
+  <div class="book-comments">
+    
+
+
+
+
+  </div>
+
+
+
+<script src="/js/book-post.js"></script>
+
+        </div>
+      </div>
+
+      <div class="column col-2 hide-lg">
+        <div class="book-toc">
+  <div class="book-tocbot">
+  </div>
+  <div class="book-tocbot-menu">
+    <a class="book-toc-expand" onclick="expand_toc()">Expand all</a>
+    <a onclick="go_top()">Back to top</a>
+    <a onclick="go_bottom()">Go to bottom</a>
+  </div>
+</div>
+
+<script>
+tocbot.init({
+  tocSelector: '.book-tocbot',
+  contentSelector: '.book-post',
+  headingSelector: 'h1, h2, h3, h4, h5',
+  collapseDepth: 2,
+  orderedList: false,
+  scrollSmooth: false,
+});
+
+function expand_toc(){
+  var b = document.querySelector(".book-toc-expand");
+  tocbot.init({
+    tocSelector: '.book-tocbot',
+    contentSelector: '.book-post',
+    headingSelector: 'h1, h2, h3, h4, h5',
+    collapseDepth: 6,
+    orderedList: false,
+    scrollSmooth: false,
+  });
+  b.setAttribute("onclick", "collapse_toc()");
+  b.innerHTML = "Collapse all"
+}
+
+function collapse_toc(){
+  var b = document.querySelector(".book-toc-expand");
+  tocbot.init({
+    tocSelector: '.book-tocbot',
+    contentSelector: '.book-post',
+    headingSelector: 'h1, h2, h3, h4, h5',
+    collapseDepth: 2,
+    orderedList: false,
+    scrollSmooth: false,
+  });
+  b.setAttribute("onclick", "expand_toc()");
+  b.innerHTML = "Expand all"
+}
+
+function go_top() {
+  window.scrollTo(0, 0);
+}
+
+function go_bottom() {
+  window.scrollTo(0, document.body.scrollHeight);
+}
+
+</script>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
