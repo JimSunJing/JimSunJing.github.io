@@ -1,37 +1,45 @@
 import './App.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import ContentBlock from './components/ContentBlock'
-import * as Realm from 'realm-web'
-
+import { loadBlog } from './utils';
 
 function App() {
-  const [mdID, setMdID] = useState(1);
-  const [blog, setBlog] = useState({md: '# Loading...'});
-  
-  useEffect(() => { async function loadMD() {
-    const REALM_APP_ID = "githubpage-0-ouxqk";
-    const app = new Realm.App({ id: REALM_APP_ID });
-    const credentials = Realm.Credentials.anonymous();
-    try {
-      const user = await app.logIn(credentials);
-      const blog = await user.functions.getOneBlog(mdID);
-      console.log(blog);
-      setBlog(blog);
-    } catch (error) {
-      console.error(error);
-    }}
-    loadMD();
-  }, [mdID]);
+  // sonnet 18: c56916ff-aa7d-482e-86ad-fdaadb586dbe 
+  // 斯芬克斯：  86316450-e4e5-4255-a51b-a21b70191940
+  const [blogID, setBlogID] = useState('86316450-e4e5-4255-a51b-a21b70191940');
 
+  const [blogs, setBlogs] = useState([]);
+  console.log('rendering App, curr blogs:',blogs);
+  
+  useEffect(() => {
+    const load = async () => { 
+      if (typeof blogs.find(b => b.id === blogID) === 'undefined'){
+        // unknow blog, need to load from database
+        const res = await loadBlog(blogID);
+        setBlogs([
+          ...blogs.filter(b => b.id !== res.id),
+          {
+            id: res['_id'],
+            date: res.date,
+            md: res.md,
+            title: res.title,
+            type: res.type,
+          }
+        ]);
+      }
+    }
+    load();
+  }, [blogID]);
+
+  
   return (
     <div className="App">
-      <ContentBlock title={blog.title} md={blog.md}/>
+      {
+        blogs.find(b => b.id === blogID) &&
+        <ContentBlock {...blogs.find(b => b.id === blogID)}/>
+      }
     </div>
   )
-}
-
-const testBlog = {
-  md: "## Why should you love people?\nhi, can I have a **picture**?\n\nabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz"
 }
 
 export default App
