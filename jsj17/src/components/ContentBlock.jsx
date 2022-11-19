@@ -6,7 +6,7 @@ export default function ContentBlock(blog) {
 
   return (
     <div className="content-block">
-      <h1>{ blog.title }</h1>
+      <h1>{ blog.title ? blog.title : 'Loading...' }</h1>
       { blog.md && <TextBlock html={convertHTML(blog.md)}/> }
       { blog.type && blog.type === 'pieces' && <PiecesBlock 
         blog={blog}/>
