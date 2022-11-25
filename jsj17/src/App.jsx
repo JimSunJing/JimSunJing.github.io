@@ -1,7 +1,7 @@
 import './App.css'
 import { useState, useEffect, useReducer } from 'react';
 import ContentBlock from './components/ContentBlock'
-import { loadBlog } from './utils';
+import { loadBlog, loadPieces } from './utils';
 
 function App() {
   // sonnet 18: c56916ff-aa7d-482e-86ad-fdaadb586dbe 
@@ -13,22 +13,22 @@ function App() {
   
   useEffect(() => {
     const load = async () => { 
-      if (typeof blogs.find(b => b.id === blogID) === 'undefined'){
-        // unknow blog, need to load from database
-        const res = await loadBlog(blogID);
-        setBlogs([
-          ...blogs.filter(b => b.id !== res.id),
-          {
-            id: res['_id'],
-            date: res.date,
-            md: res.md,
-            title: res.title,
-            type: res.type,
-          }
-        ]);
-      }
+      // unknow blog, need to load from database
+      let res = await loadBlog(blogID);
+      let pieces = await loadPieces(res['_id']);
+      setBlogs([
+        ...blogs.filter(b => b.id !== res.id),
+        {
+          id: res['_id'],
+          date: res.date,
+          md: res.md,
+          title: res.title,
+          type: res.type,
+          pieces: pieces,
+        }
+      ]);
     }
-    load();
+    if (!blogs.find(b => b.id === blogID)){load();}
   }, [blogID]);
 
   

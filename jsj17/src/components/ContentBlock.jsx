@@ -8,8 +8,7 @@ export default function ContentBlock(blog) {
     <div className="content-block">
       <h1>{ blog.title ? blog.title : 'Loading...' }</h1>
       { blog.md && <TextBlock html={convertHTML(blog.md)}/> }
-      { blog.type && blog.type === 'pieces' && <PiecesBlock 
-        blog={blog}/>
+      { blog.pieces && <PiecesBlock pieces={blog.pieces}/>
       }
     </div>
   )

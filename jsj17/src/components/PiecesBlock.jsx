@@ -1,19 +1,9 @@
 import { useState } from "react";
 import TextBlock from "./TextBlock"
-import { convertHTML, loadPieces } from '../utils';
-import { useEffect } from "react";
+import { convertHTML } from '../utils';
 
-export default function PiecesBlock({ blog }) {
+export default function PiecesBlock({ pieces }) {
   const [answer, setAnswer] = useState("");
-  const [pieces, setPieces] = useState([]);
-
-  useEffect(() => {
-    const load = async () => {
-      const ps = await loadPieces(blog.id);
-      setPieces(ps);
-    }
-    load();
-  }, [])
 
   const submitAnswer = (e) => {
     e.preventDefault();
